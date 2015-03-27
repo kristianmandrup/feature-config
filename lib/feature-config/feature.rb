@@ -1,4 +1,5 @@
 class Feature
+  @features = {}
   attr_reader :name, :enabled, :properties
 
   alias_method :enabled?, :enabled
@@ -7,23 +8,27 @@ class Feature
     @name       = name
     @enabled    = enabled
     @properties = properties
-  end
-
-  def self.find(name)
-    cache.fetch(name)
-  end
-
-  def self.store(name, enabled, properties)
-    cache.fetch(name, expires_in: 0) do
-      Feature.new(name, enabled, properties)
-    end
+    bind_properties!
   end
 
   def disabled?
     !enabled?
   end
 
-  def self.cache
-    Rails.cache
+  def bind_properties!
+    return unless properties
+    properties.each do |property, value|
+      define_singleton_method property.to_sym, proc { value }
+    end
+  end
+
+  class << self
+    def find(name)
+      @features[name]
+    end
+
+    def store(name, enabled, properties)
+      @features[name] = Feature.new(name, enabled, properties)
+    end
   end
 end
