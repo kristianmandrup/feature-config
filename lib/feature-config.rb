@@ -21,7 +21,7 @@ module FeatureConfig
 
     def check_consistency_of_configs
       properties.each_key do |name|
-        return if Feature.defined?(name)
+        next if Feature.defined?(name)
         logger.warn "[FeatureConfig] #{ name }: couldn't find associated feature flag"
       end
     end
