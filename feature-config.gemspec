@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://www.offsidegaming.com'
   s.summary     = 'Betrails feature-config gem'
 
-  s.files = Dir['{app,config,db,lib}/**/*'] + ['Rakefile', 'README.rdoc']
+  s.files = Dir['{app,config,db,lib}/**/*'] + ['Rakefile', 'README.md']
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'rails', '~> 3.2.18'
