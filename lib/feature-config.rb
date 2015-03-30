@@ -19,12 +19,23 @@ module FeatureConfig
       end
     end
 
+    def check_consistency_of_configs
+      properties.each_key do |name|
+        return if Feature.defined?(name)
+        logger.warn "[FeatureConfig] #{ name }: couldn't find associated feature flag"
+      end
+    end
+
     private
 
     def fetch_feature_configs(*path)
       Dir[Rails.root.join('config', 'features', *path)].inject({}) do |conf, entry|
         conf.update(YAML.load_file(entry))
       end
+    end
+
+    def logger
+      Rails.logger
     end
   end
 end
