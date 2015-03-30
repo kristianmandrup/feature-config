@@ -25,6 +25,18 @@ Feature.find('awesome_feature').properties
 => { :host => 'localhost', :login => 'login', :log => 'whatever' }
 ```
 
+Check whether the feature is defined for an application
+```
+Feature.defined?('awesome_feature')
+=> false
+```
+
+Or list all features for an application
+```
+Feature.names
+=> [ 'awesome_feature', 'not_so_hot_feature', 'useless_feature' ]
+```
+
 Also, first-level properties accessible as instance methods:
 ```
 Feature.find('awesome_feature').log
