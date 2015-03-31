@@ -4,11 +4,11 @@ class Feature
 
   alias_method :enabled?, :enabled
 
-  def initialize(name, enabled, properties = {})
+  def initialize(name, enabled, properties = nil)
     @name       = name
     @enabled    = enabled
     @properties = properties
-    bind_properties!
+    bind_properties! if properties
   end
 
   def disabled?
@@ -16,7 +16,6 @@ class Feature
   end
 
   def bind_properties!
-    return unless properties
     properties.each do |property, value|
       define_singleton_method property.to_sym, proc { value }
     end
