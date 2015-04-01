@@ -62,3 +62,19 @@ awesome_feature:
   port: 1111
   awesomeness: 'awesome'
 ```
+
+Also, you can specify which users available the feature, just specify
+UserQuery name and value
+
+```yml
+awesome_feature:
+  ...
+  available_for:
+    query_name: 'with_deposits_more_than'
+    query_value: 500
+```
+
+```
+Feature.find('awesome_feature').available_for
+=> [1,2,3,4] # array of user ids
+```

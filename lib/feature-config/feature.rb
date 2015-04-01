@@ -16,9 +16,7 @@ class Feature
   end
 
   def bind_properties!
-    properties.each do |property, value|
-      define_singleton_method property.to_sym, proc { value }
-    end
+    properties.each { |property, value| build_property_method(property, value) }
   end
 
   class << self
@@ -36,6 +34,15 @@ class Feature
 
     def names
       @features.keys
+    end
+  end
+
+  private
+
+  def build_property_method(property, value)
+    define_singleton_method property.to_sym do
+      return value unless property == 'accessible_for'
+      Betrails::User.send(value['query_name'], value['query_value']).pluck(:id)
     end
   end
 end
