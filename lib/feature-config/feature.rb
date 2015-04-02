@@ -42,7 +42,11 @@ class Feature
   def build_property_method(property, value)
     define_singleton_method property.to_sym do
       return value unless property == 'accessible_for'
-      Betrails::User.send(value['query_name'], value['query_value']).pluck(:id)
+      build_query(value).ids
     end
+  end
+
+  def build_query(attributes)
+    "feature_config/#{ attributes['query'] }".classify.constantize.new(attributes)
   end
 end
