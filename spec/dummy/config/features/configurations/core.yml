@@ -1,0 +1,11 @@
+first_feature:
+  string: 'string'
+  integer: 100
+  float: 100.0
+  boolean: true
+  nested_data:
+    nested_string: 'string'
+    nested_integer: 100
+    nested_boolean: true
+misnamed_feature:
+  string: 'string'
