@@ -13,7 +13,9 @@ Gem::Specification.new do |s|
   s.summary     = 'Betrails feature-config gem'
 
   s.files = Dir['{app,config,db,lib}/**/*'] + ['Rakefile', 'README.md']
-  s.test_files = Dir['test/**/*']
+  s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'rails', '~> 3.2.18'
+
+  s.add_development_dependency 'rspec'
 end
