@@ -4,11 +4,11 @@ class Setup
   include Singleton
 
   def configs
-    @configs ||= fetch_feature_configs('*.yml')
+    ConfigsInitializer.instance.hash
   end
 
   def properties
-    @properies ||= fetch_feature_configs('configurations', '*.yml')
+    PropertiesInitializer.instance.hash
   end
 
   def initialize_feature_configs
@@ -19,14 +19,6 @@ class Setup
 
   def check_consistency_of_configs
     properties.each_key { |name| log_warning(name) unless Feature.defined?(name) }
-  end
-
-  private
-
-  def fetch_feature_configs(*path)
-    Dir[Rails.root.join('config', 'features', *path)].inject({}) do |conf, entry|
-      conf.update(YAML.load_file(entry))
-    end
   end
 
   def logger
