@@ -18,10 +18,7 @@ class Setup
   end
 
   def check_consistency_of_configs
-    properties.each_key do |name|
-      next if Feature.defined?(name)
-      logger.warn "[FeatureConfig] #{ name }: couldn't find associated feature flag"
-    end
+    properties.each_key { |name| log_warning(name) unless Feature.defined?(name) }
   end
 
   private
@@ -34,5 +31,9 @@ class Setup
 
   def logger
     Rails.logger
+  end
+
+  def log_warning(feature_name)
+    logger.warn "[FeatureConfig] #{ feature_name }: couldn't find associated feature flag"
   end
 end
