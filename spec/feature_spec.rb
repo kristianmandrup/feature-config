@@ -3,11 +3,11 @@ require 'spec_helper'
 RSpec.describe Feature do
   context 'on app startup' do
     subject                     { Feature }
-    let(:features_names)        { FeatureConfig.configs.keys }
+    let(:features_names)        { Setup.instance.configs.keys }
     let(:enabled_feature)       { 'first_feature' }
     let(:disabled_feature)      { 'disabled_feature' }
     let(:non_existing_feature)  { 'non_existing_feature' }
-    let(:properties_keys)       { FeatureConfig.properties[enabled_feature].keys }
+    let(:properties_keys)       { Setup.instance.properties[enabled_feature].keys }
 
     it 'creates an instance of Feature for each key in yml configuration' do
       expect(features_names.all? { |name| subject.find(name) }).to be_truthy
