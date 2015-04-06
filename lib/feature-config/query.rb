@@ -3,7 +3,7 @@ module FeatureConfig
     attr_reader :ids
 
     def initialize(attributes)
-      @attributes = attributes
+      @attributes = attributes.stringify_keys
       @ids = find_ids
     end
 
