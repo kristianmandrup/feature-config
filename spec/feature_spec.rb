@@ -26,5 +26,15 @@ RSpec.describe Feature do
       it { expect(subject.defined?(enabled_feature)).to be_truthy }
       it { expect(subject.defined?(non_existing_feature)).to be_falsey }
     end
+
+    context '#bind_properties! calls' do
+      before do
+        expect_any_instance_of(subject).to receive(:bind_properties!)
+      end
+
+      it 'when an instance receives properties' do
+        subject.new(enabled_feature, true, FeatureConfig.properties[enabled_feature])
+      end
+    end
   end
 end
