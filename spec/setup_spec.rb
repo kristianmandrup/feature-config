@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe Setup do
+RSpec.describe FeatureConfig::Setup do
   context 'on app initialization' do
-    subject { Setup.instance }
+    subject { FeatureConfig::Setup.instance }
 
     it 'takes configs and store them as a Hash' do
       expect(subject.configs).to be_kind_of(Hash)
