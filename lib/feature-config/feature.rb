@@ -41,7 +41,8 @@ class Feature
   end
 
   def available
-    @available ||= filters.inject(Set.new) { |acc, filter| acc.merge(filter.ids) }.to_a
+    return unless filters
+    @available ||= filters.map(&:ids).reduce(&:&)
   end
 
   private
