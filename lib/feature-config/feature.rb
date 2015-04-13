@@ -1,8 +1,31 @@
 class Feature
   @features = {}
+
   attr_reader :name, :enabled, :properties
 
   alias_method :enabled?, :enabled
+
+  def self.find(name)
+    @features[name]
+  end
+
+  def self.store(name, enabled, properties)
+    @features[name] = Feature.new(name, enabled, properties)
+  end
+
+  def self.defined?(name)
+    @features.key?(name)
+  end
+
+  def self.names
+    @features.keys
+  end
+
+  def self.seed
+    Setup.instance.configs.each do |name, enabled|
+      store(name, enabled, Setup.instance.properties[name])
+    end
+  end
 
   def initialize(name, enabled, properties = nil)
     @name       = name
@@ -21,24 +44,6 @@ class Feature
     @available ||= filters.inject(Set.new) { |acc, filter| acc.merge(filter.ids) }.to_a
   end
 
-  class << self
-    def find(name)
-      @features[name]
-    end
-
-    def store(name, enabled, properties)
-      @features[name] = Feature.new(name, enabled, properties)
-    end
-
-    def defined?(name)
-      @features.key?(name)
-    end
-
-    def names
-      @features.keys
-    end
-  end
-
   private
 
   attr_reader :filters
@@ -54,7 +59,7 @@ class Feature
   def build_filters(attributes)
     return unless attributes
     @filters = attributes.map do |name, options|
-      "feature_config/#{ name }".classify.constantize.new(options)
+      "feature/filter/#{ name }".classify.constantize.new(options)
     end
   end
 end

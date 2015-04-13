@@ -1,12 +1,11 @@
 require 'feature-config/feature'
-require 'feature-config/filter'
-require 'feature-config/filter/query_filter'
-require 'feature-config/filter/deposit_range'
-require 'feature-config/configuration_handler'
-require 'feature-config/properties_initializer'
-require 'feature-config/configs_initializer'
+require 'feature-config/feature/filter'
+require 'feature-config/feature/filter/query_filter'
+require 'feature-config/feature/filter/deposit_range'
 require 'feature-config/setup'
-require 'feature-config/engine'
+require 'feature-config/setup/loader'
+require 'feature-config/setup/loader/yaml'
+require 'feature-config/feature/rails/engine'
 
 module FeatureConfig
 end
