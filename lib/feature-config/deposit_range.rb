@@ -1,5 +1,5 @@
 module FeatureConfig
-  class DepositeRange
+  class DepositRange
     include Query
 
     private
