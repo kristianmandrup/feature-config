@@ -15,6 +15,8 @@ class Setup
     properties.each_key { |name| log_warning(name) unless Feature.defined?(name) }
   end
 
+  private
+
   def logger
     Rails.logger
   end
