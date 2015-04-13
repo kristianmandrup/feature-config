@@ -1,39 +1,65 @@
 require 'spec_helper'
 
 RSpec.describe Feature do
-  context 'on app startup' do
-    subject                     { Feature }
-    let(:features_names)        { Setup.instance.configs.keys }
-    let(:enabled_feature)       { 'first_feature' }
-    let(:disabled_feature)      { 'disabled_feature' }
-    let(:non_existing_feature)  { 'non_existing_feature' }
-    let(:properties_keys)       { Setup.instance.properties[enabled_feature].keys }
+  let(:features_names)        { Setup.instance.configs.keys }
+  let(:enabled_feature)       { 'first_feature' }
+  let(:disabled_feature)      { 'disabled_feature' }
+  let(:non_existing_feature)  { 'non_existing_feature' }
 
-    it 'creates an instance of Feature for each key in yml configuration' do
-      expect(features_names.all? { |name| subject.find(name) }).to be_truthy
+  context 'class API' do
+    subject { Feature }
+
+    context '.find' do
+      it { expect(subject.find(enabled_feature)).to be_kind_of(Feature) }
+      it { expect(subject.find(non_existing_feature)).to be_nil }
     end
 
-    context 'correctly instantiate described features' do
-      it { expect(subject.find(enabled_feature).enabled?).to be_truthy }
-      it { expect(subject.find(disabled_feature).enabled?).to be_falsey }
-    end
-
-    context 'create singleton methods for first-level properties keys' do
-      it { expect(properties_keys.all? { |meth| subject.find(enabled_feature).respond_to?(meth) }).to be_truthy }
-    end
-
-    context 'correctly responds whether a feature is created' do
+    context '.defined?' do
       it { expect(subject.defined?(enabled_feature)).to be_truthy }
       it { expect(subject.defined?(non_existing_feature)).to be_falsey }
     end
 
-    context '#bind_properties! calls' do
-      before do
-        expect_any_instance_of(subject).to receive(:bind_properties!)
+    context '.names' do
+      it { expect(subject.names).to match_array(features_names) }
+    end
+
+    context '.store' do
+      it { expect { subject.store('new_awesome_feature', true, {}) }.to change { Feature.names.size }.by(1) }
+    end
+
+    context '.initialize' do
+      after { subject.new(enabled_feature, true, Setup.instance.properties[enabled_feature]) }
+      it { expect_any_instance_of(subject).to receive(:bind_properties!) }
+      it { expect_any_instance_of(subject).to receive(:build_property_method).at_least(:once) }
+      it { expect_any_instance_of(subject).to receive(:build_filters).at_least(:once) }
+    end
+  end
+
+  context 'instance API' do
+    context 'for enabled feature' do
+      subject                 { Feature.find(enabled_feature) }
+      let(:properties_keys)   { Setup.instance.properties[enabled_feature].keys }
+
+      context '#enabled?' do
+        it { expect(subject.enabled?).to be_truthy }
       end
 
-      it 'when an instance receives properties' do
-        subject.new(enabled_feature, true, Setup.instance.properties[enabled_feature])
+      context 'create singleton methods for first-level properties keys' do
+        it { expect(properties_keys.all? { |meth| subject.respond_to?(meth) }).to be_truthy }
+      end
+
+      context '#available' do
+        before { allow(subject).to receive(:filters).and_return([ double('Feature::Filter', ids: [1,2,3,4,5]), double('Feature::Filter', ids: [4,5,6]) ]) }
+        it { expect(subject.available).to be_kind_of(Array) }
+        it { expect(subject.available).to match_array([4,5]) }
+      end
+    end
+
+    context 'for disabled feature' do
+      subject { Feature.find(disabled_feature) }
+
+      context '#enabled?' do
+        it { expect(subject.enabled?).to be_falsey }
       end
     end
   end
