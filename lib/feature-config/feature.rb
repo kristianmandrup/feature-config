@@ -9,7 +9,7 @@ class Feature
     @enabled    = enabled
     @properties = properties
     return unless properties
-    @query = build_query(properties.delete('accessible_for'))
+    build_filters(properties.delete('available'))
     bind_properties!
   end
 
@@ -17,10 +17,8 @@ class Feature
     !enabled?
   end
 
-  def accessible_for
-    return unless @query
-    cache.write(query_cache_key, @query.call, expires_in: 60) if cache_expired?
-    cache.read(query_cache_key)
+  def available
+    @available ||= filters.inject(Set.new) { |acc, filter| acc.merge(filter.ids) }.to_a
   end
 
   class << self
@@ -43,6 +41,8 @@ class Feature
 
   private
 
+  attr_reader :filters
+
   def bind_properties!
     properties.each { |property, value| build_property_method(property, value) }
   end
@@ -51,20 +51,10 @@ class Feature
     define_singleton_method property.to_sym, proc { value }
   end
 
-  def build_query(attributes = nil)
+  def build_filters(attributes)
     return unless attributes
-    proc { "feature_config/#{ attributes['query'] }".classify.constantize.new(attributes).ids }
-  end
-
-  def query_cache_key
-    "user_query_#{ @query.object_id }"
-  end
-
-  def cache
-    Rails.cache
-  end
-
-  def cache_expired?
-    !cache.exist?(query_cache_key)
+    @filters = attributes.map do |name, options|
+      "feature_config/#{ name }".classify.constantize.new(options)
+    end
   end
 end
