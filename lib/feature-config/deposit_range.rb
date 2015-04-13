@@ -1,7 +1,5 @@
 module FeatureConfig
-  class DepositRange
-    include Query
-
+  class DepositRange < Query
     private
 
     def name

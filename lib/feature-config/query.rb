@@ -1,5 +1,5 @@
 module FeatureConfig
-  module Query
+  class Query
     attr_reader :ids
 
     def initialize(attributes)
