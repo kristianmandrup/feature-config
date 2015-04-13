@@ -5,4 +5,8 @@ class Setup::Loader
     @path = path
     @hash = fetch_config
   end
+
+  def fetch_config
+    raise NotImplementedError
+  end
 end
