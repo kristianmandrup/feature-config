@@ -29,15 +29,10 @@ RSpec.describe Feature do
 
   context 'instance API' do
     context 'for enabled feature' do
-      subject                 { Feature.find(enabled_feature) }
-      let(:properties_keys)   { Setup.properties[enabled_feature].keys }
+      subject { Feature.find(enabled_feature) }
 
       context '#enabled?' do
         it { expect(subject.enabled?).to be_truthy }
-      end
-
-      context 'create singleton methods for first-level properties keys' do
-        it { expect(properties_keys.all? { |meth| subject.properties.respond_to?(meth) }).to be_truthy }
       end
 
       context '#available' do
