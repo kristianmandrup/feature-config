@@ -1,4 +1,8 @@
 class Feature::Filter
+  def self.build(filter_name, options)
+    "#{ self.name }/#{ filter_name }".classify.constantize.new(options)
+  end
+
   def initialize(attributes)
     @attributes = attributes
   end

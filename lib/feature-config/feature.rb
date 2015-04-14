@@ -9,7 +9,7 @@ class Feature
     @enabled    = enabled
     @properties = properties
     return unless properties
-    build_filters(properties.delete('available'))
+    @filters = build_filters(properties.delete('available'))
     bind_properties!
   end
 
@@ -35,9 +35,6 @@ class Feature
   end
 
   def build_filters(attributes)
-    return unless attributes
-    @filters = attributes.map do |name, options|
-      "feature/filter/#{ name }".classify.constantize.new(options)
-    end
+    attributes.map { |name, options| Filter.build(name, options) } if attributes
   end
 end
