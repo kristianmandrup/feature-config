@@ -1,5 +1,6 @@
 require 'feature-config/feature/klass'
 require 'feature-config/feature'
+require 'feature-config/feature/properties_hash'
 require 'feature-config/feature/filter'
 require 'feature-config/feature/filter/query_filter'
 require 'feature-config/feature/filter/deposit_range'

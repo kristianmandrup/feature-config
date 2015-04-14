@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Feature do
-  let(:features_names)        { Setup.instance.configs.keys }
+  let(:features_names)        { Setup.configs.keys }
   let(:enabled_feature)       { 'first_feature' }
   let(:disabled_feature)      { 'disabled_feature' }
   let(:non_existing_feature)  { 'non_existing_feature' }
@@ -28,7 +28,7 @@ RSpec.describe Feature do
     end
 
     context '.initialize' do
-      after { subject.new(enabled_feature, true, Setup.instance.properties[enabled_feature]) }
+      after { subject.new(enabled_feature, true, Setup.properties[enabled_feature]) }
       it { expect_any_instance_of(subject).to receive(:bind_properties!) }
       it { expect_any_instance_of(subject).to receive(:build_property_method).at_least(:once) }
       it { expect_any_instance_of(subject).to receive(:build_filters).at_least(:once) }
@@ -38,7 +38,7 @@ RSpec.describe Feature do
   context 'instance API' do
     context 'for enabled feature' do
       subject                 { Feature.find(enabled_feature) }
-      let(:properties_keys)   { Setup.instance.properties[enabled_feature].keys }
+      let(:properties_keys)   { Setup.properties[enabled_feature].keys }
 
       context '#enabled?' do
         it { expect(subject.enabled?).to be_truthy }

@@ -6,8 +6,8 @@ class Feature
       @features[name]
     end
 
-    def store(name, enabled, properties)
-      @features[name] = Feature.new(name, enabled, properties)
+    def store(name, enabled)
+      @features[name] = Feature.new(name, enabled)
     end
 
     def defined?(name)
@@ -16,12 +16,6 @@ class Feature
 
     def names
       @features.keys
-    end
-
-    def seed
-      Setup.instance.configs.each do |name, enabled|
-        store(name, enabled, Setup.instance.properties[name])
-      end
     end
   end
 end
