@@ -6,12 +6,7 @@ module FeatureConfig
 
     initializer 'feature-config.feature_consistency_configs_helper', after: :initialize_logger do
       Setup.properties.each do |name, options|
-        unless Feature.defined?(name)
-          Setup.log_warning(name)
-          next
-        end
-        Feature.find(name).filters = Feature::Filter.build_filters(options.delete('available')) if options.key?('available')
-        Feature.find(name).properties = Feature::PropertiesHash.new(options) if options
+        Setup.log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
       end
     end
   end
