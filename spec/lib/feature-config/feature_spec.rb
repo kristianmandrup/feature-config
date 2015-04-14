@@ -1,13 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe Feature do
-  let(:features_names)        { Setup.configs.keys }
-  let(:enabled_feature)       { 'first_feature' }
-  let(:disabled_feature)      { 'disabled_feature' }
-  let(:non_existing_feature)  { 'non_existing_feature' }
+  let(:enabled_feature) { 'first_feature' }
 
   context 'class API' do
-    subject { Feature }
+    subject                     { Feature }
+    let(:features_names)        { Setup.configs.keys }
+    let(:non_existing_feature)  { 'non_existing_feature' }
 
     context '.find' do
       it { expect(subject.find(enabled_feature)).to be_kind_of(Feature) }
@@ -46,9 +45,25 @@ RSpec.describe Feature do
         it { expect(subject.available).to be_kind_of(Array) }
         it { expect(subject.available).to match_array([4,5]) }
       end
+
+      context '#build_properties' do
+        subject { Feature.store('new_awesome_feature', true)}
+        context 'without filters' do
+          before { subject.build_properties('test' => true, 'awesomeness' => 'high') }
+          it { expect(subject.properties).to be_kind_of(Feature::PropertiesHash) }
+          it { expect(subject.filters).to be_nil }
+        end
+
+        context 'with filters' do
+          before { subject.build_properties('test' => true, 'awesomeness' => 'high', 'available' => { 'deposit_range' => { 'min' => 100_000, 'max' => 200_000 } }) }
+          it { expect(subject.filters).to be_kind_of(Array) }
+          it { expect(subject.filters).to all(be_an(Feature::Filter)) }
+        end
+      end
     end
 
     context 'for disabled feature' do
+      let(:disabled_feature) { 'disabled_feature' }
       subject { Feature.find(disabled_feature) }
 
       context '#enabled?' do
