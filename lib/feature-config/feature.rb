@@ -1,31 +1,8 @@
 class Feature
-  @features = {}
-
+  extend Klass
   attr_reader :name, :enabled, :properties
 
   alias_method :enabled?, :enabled
-
-  def self.find(name)
-    @features[name]
-  end
-
-  def self.store(name, enabled, properties)
-    @features[name] = Feature.new(name, enabled, properties)
-  end
-
-  def self.defined?(name)
-    @features.key?(name)
-  end
-
-  def self.names
-    @features.keys
-  end
-
-  def self.seed
-    Setup.instance.configs.each do |name, enabled|
-      store(name, enabled, Setup.instance.properties[name])
-    end
-  end
 
   def initialize(name, enabled, properties = nil)
     @name       = name

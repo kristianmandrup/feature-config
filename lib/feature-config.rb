@@ -1,3 +1,4 @@
+require 'feature-config/feature/klass'
 require 'feature-config/feature'
 require 'feature-config/feature/filter'
 require 'feature-config/feature/filter/query_filter'
