@@ -5,9 +5,7 @@ module FeatureConfig
     end
 
     initializer 'feature-config.feature_consistency_configs_helper', after: :initialize_logger do
-      Setup.properties.each do |name, options|
-        Setup.log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
-      end
+      Setup.properties.each { |name, options| Setup.build_properties(name, options) }
     end
   end
 end

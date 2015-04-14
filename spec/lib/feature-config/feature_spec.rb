@@ -24,14 +24,7 @@ RSpec.describe Feature do
     end
 
     context '.store' do
-      it { expect { subject.store('new_awesome_feature', true, {}) }.to change { Feature.names.size }.by(1) }
-    end
-
-    context '.initialize' do
-      after { subject.new(enabled_feature, true, Setup.properties[enabled_feature]) }
-      it { expect_any_instance_of(subject).to receive(:bind_properties!) }
-      it { expect_any_instance_of(subject).to receive(:build_property_method).at_least(:once) }
-      it { expect_any_instance_of(subject).to receive(:build_filters).at_least(:once) }
+      it { expect { subject.store('new_awesome_feature', true) }.to change { Feature.names.size }.by(1) }
     end
   end
 
@@ -45,7 +38,7 @@ RSpec.describe Feature do
       end
 
       context 'create singleton methods for first-level properties keys' do
-        it { expect(properties_keys.all? { |meth| subject.respond_to?(meth) }).to be_truthy }
+        it { expect(properties_keys.all? { |meth| subject.properties.respond_to?(meth) }).to be_truthy }
       end
 
       context '#available' do

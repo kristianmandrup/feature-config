@@ -8,11 +8,15 @@ class Setup
       @properties ||= Loader::Yaml.new('config/features/configurations').hash
     end
 
-    def log_warning(feature_name)
-      logger.warn "[FeatureConfig] #{ feature_name }: couldn't find associated feature flag"
+    def build_properties(name, options)
+      log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
     end
 
     private
+
+    def log_warning(feature_name)
+      logger.warn "[FeatureConfig] #{ feature_name }: couldn't find associated feature flag"
+    end
 
     def logger
       Rails.logger
