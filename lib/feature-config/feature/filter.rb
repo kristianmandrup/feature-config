@@ -4,7 +4,7 @@ class Feature::Filter
   end
 
   def self.build(filter_name, options)
-    "#{ self.name }/#{ filter_name }".classify.constantize.new(options)
+    class_for(filter_name).new(options)
   end
 
   def initialize(attributes)
@@ -20,6 +20,10 @@ class Feature::Filter
   end
 
   private
+
+  def self.class_for(filter_name)
+    "#{ self.name }/#{ filter_name }".classify.constantize
+  end
 
   def source
     raise NotImplementedError
