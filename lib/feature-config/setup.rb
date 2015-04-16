@@ -8,8 +8,14 @@ class Setup
       @properties ||= Loader::Yaml.new('config/features/configurations').hash
     end
 
-    def build_properties(name, options)
-      log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
+    def initialize_features
+      configs.each { |name, enabled| Feature.store(name, enabled) }
+    end
+
+    def initialize_properties
+      properties.each do |name, options|
+        log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
+      end
     end
 
     private
