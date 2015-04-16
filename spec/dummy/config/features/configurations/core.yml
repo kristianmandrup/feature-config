@@ -7,5 +7,9 @@ first_feature:
     nested_string: 'string'
     nested_integer: 100
     nested_boolean: true
+  available:
+    deposit_range:
+      min: 500000
+      max: 600000
 misnamed_feature:
   string: 'string'

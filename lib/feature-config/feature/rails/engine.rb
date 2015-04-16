@@ -1,11 +1,11 @@
 module FeatureConfig
   class Engine < Rails::Engine
     initializer 'feature-config.helpers', before: :load_environment_config do
-      FeatureConfig::Setup.instance.initialize_feature_configs
+      Setup.initialize_features
     end
 
     initializer 'feature-config.feature_consistency_configs_helper', after: :initialize_logger do
-      FeatureConfig::Setup.instance.check_consistency_of_configs
+      Setup.initialize_properties
     end
   end
 end

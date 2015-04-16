@@ -1,33 +1,31 @@
-require 'singleton'
-
-module FeatureConfig
-  class Setup
-    include Singleton
-
+class Setup
+  class << self
     def configs
-      FeatureConfig::ConfigsInitializer.instance.hash
+      @configs ||= Loader::Yaml.new('config/features').hash
     end
 
     def properties
-      FeatureConfig::PropertiesInitializer.instance.hash
+      @properties ||= Loader::Yaml.new('config/features/configurations').hash
     end
 
-    def initialize_feature_configs
-      configs.each do |name, enabled|
-        Feature.store(name, enabled, properties[name])
+    def initialize_features
+      configs.each { |name, enabled| Feature.store(name, enabled) }
+    end
+
+    def initialize_properties
+      properties.each do |name, options|
+        log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
       end
     end
 
-    def check_consistency_of_configs
-      properties.each_key { |name| log_warning(name) unless Feature.defined?(name) }
+    private
+
+    def log_warning(feature_name)
+      logger.warn "[FeatureConfig] #{ feature_name }: couldn't find associated feature flag"
     end
 
     def logger
       Rails.logger
-    end
-
-    def log_warning(feature_name)
-      logger.warn "[FeatureConfig] #{ feature_name }: couldn't find associated feature flag"
     end
   end
 end
