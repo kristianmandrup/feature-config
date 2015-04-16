@@ -8,8 +8,15 @@ Each instance of Feature class is feature configuration, and keeps
 
 Features instantiates at application startup and keeps in memory while application is running.
 
+## Install
 
-### Using
+in `Gemfile`
+
+`gem 'feature-config', github: 'smigit/feature-config'`
+
+## Quickstart
+
+### Usage
 ```
 Feature.find('awesome_feature')
 => #<Feature:0x0..>
@@ -43,7 +50,7 @@ Feature.find('awesome_feature').log
 => 'whatever'
 ```
 
-### Configuring
+### Configuration
 
 Place all general configs under config/features as .yml files
 
@@ -78,3 +85,17 @@ awesome_feature:
 Feature.find('awesome_feature').available_for
 => [1,2,3,4] # array of user ids
 ```
+
+## API
+
+## Dependencies
+
+`rails ~> 3.2.18`
+
+## More info
+
+### Wiki
+
+## Copyright
+
+2015 (c) Offsidegaming.com
