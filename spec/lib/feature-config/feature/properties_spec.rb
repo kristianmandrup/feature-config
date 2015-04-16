@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Feature::PropertiesHash do
-  subject { Feature::PropertiesHash }
+RSpec.describe Feature::Properties do
+  subject { Feature::Properties }
   let(:enabled_feature) { 'first_feature' }
 
   context '.initialize' do
@@ -10,7 +10,7 @@ RSpec.describe Feature::PropertiesHash do
   end
 
   context 'create a methods for each properties keys' do
-    subject { Feature::PropertiesHash.new(Setup.properties[enabled_feature]) }
+    subject { Feature::Properties.new(Setup.properties[enabled_feature]) }
     it { expect(subject.instance_variable_get(:@properties).keys.all? { |meth| subject.respond_to?(meth) }).to be_truthy }
   end
 end

@@ -1,4 +1,4 @@
-class Feature::PropertiesHash
+class Feature::Properties
   def initialize(properties)
     @properties = properties
     bind_properties!

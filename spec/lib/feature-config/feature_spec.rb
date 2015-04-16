@@ -45,7 +45,7 @@ RSpec.describe Feature do
         subject { Feature.store('new_awesome_feature', true)}
         context 'without filters' do
           before { subject.build_properties('test' => true, 'awesomeness' => 'high') }
-          it { expect(subject.properties).to be_kind_of(Feature::PropertiesHash) }
+          it { expect(subject.properties).to be_kind_of(Feature::Properties) }
           it { expect(subject.filters).to be_nil }
         end
 
