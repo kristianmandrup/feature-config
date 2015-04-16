@@ -76,9 +76,10 @@ UserQuery name and value
 ```yml
 awesome_feature:
   ...
-    query: 'deposit_range'
-    min: 500
-    max: 600
+  available:
+    deposit_range:
+      min: 500
+      max: 600
 ```
 
 ```
