@@ -7,6 +7,7 @@ class Feature
   def initialize(name, enabled)
     @name     = name
     @enabled  = enabled
+    @filters  = []
   end
 
   def disabled?
@@ -14,7 +15,6 @@ class Feature
   end
 
   def available
-    return unless filters
     @available ||= filters.map(&:ids).reduce(&:&)
   end
 

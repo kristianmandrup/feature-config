@@ -46,7 +46,7 @@ RSpec.describe Feature do
         context 'without filters' do
           before { subject.build_properties('test' => true, 'awesomeness' => 'high') }
           it { expect(subject.properties).to be_kind_of(Feature::Properties) }
-          it { expect(subject.filters).to be_nil }
+          it { expect(subject.filters).to eq([]) }
         end
 
         context 'with filters' do
