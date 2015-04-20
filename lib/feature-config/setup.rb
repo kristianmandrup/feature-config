@@ -14,8 +14,12 @@ class Setup
 
     def initialize_properties
       properties.each do |name, options|
-        log_warning(name) unless Feature.defined?(name) && Feature.find(name).build_properties(options)
+        Feature.defined?(name) && Feature.find(name).build_properties(options)
       end
+    end
+
+    def check_consistency_of_configs
+      properties.each_key { |name| log_warning(name) unless Feature.defined?(name) }
     end
 
     private

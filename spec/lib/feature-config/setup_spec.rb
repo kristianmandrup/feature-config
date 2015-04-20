@@ -25,7 +25,7 @@ RSpec.describe Setup do
     it do
       allow(log).to receive(:warn)
       allow(subject).to receive(:logger).and_return(log)
-      subject.initialize_properties
+      subject.check_consistency_of_configs
       expect(log).to have_received(:warn).with("[FeatureConfig] #{ feature_name }: couldn't find associated feature flag")
     end
   end
