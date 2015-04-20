@@ -1,6 +1,6 @@
 class Feature
   extend Klass
-  attr_reader :name, :enabled, :properties, :filters
+  attr_reader :name, :enabled, :filters
 
   alias_method :enabled?, :enabled
 
@@ -21,5 +21,10 @@ class Feature
   def build_properties(options)
     @filters = Feature::Filter.build_filters(options.delete('available')) if options.key?('available')
     @properties = Feature::Properties.new(options) if options
+  end
+
+  def properties
+    return @properties unless block_given?
+    yield(@properties)
   end
 end
