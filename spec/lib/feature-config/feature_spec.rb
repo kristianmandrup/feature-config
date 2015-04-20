@@ -50,9 +50,9 @@ RSpec.describe Feature do
         end
 
         context 'with filters' do
-          before { subject.build_properties('test' => true, 'awesomeness' => 'high', 'available' => { 'deposit_range' => { 'min' => 100_000, 'max' => 200_000 } }) }
-          it { expect(subject.filters).to be_kind_of(Array) }
-          it { expect(subject.filters).to all(be_an(Feature::Filter)) }
+          after { subject.build_properties('test' => true, 'awesomeness' => 'high', 'available' => { 'deposit_range' => { 'min' => 100_000, 'max' => 200_000 } }) }
+          it { expect(Feature::Filter).to receive(:build_filters).with('deposit_range' => { 'min' => 100_000, 'max' => 200_000 }) }
+          it { expect(Feature::Properties).to receive(:new).with('test' => true, 'awesomeness' => 'high') }
         end
       end
     end
