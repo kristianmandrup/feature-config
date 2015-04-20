@@ -1,10 +1,6 @@
 class Feature::Filter
   def self.build_filters(attributes)
-    attributes.map { |name, options| build(name, options) }
-  end
-
-  def self.build(filter_name, options)
-    class_for(filter_name).new(options)
+    attributes.map { |name, options| class_for(name).new(options) }
   end
 
   def initialize(attributes)
