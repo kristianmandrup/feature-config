@@ -1,4 +1,4 @@
-class Setup::Loader::Yaml < Setup::Loader
+class FeatureConfig::Setup::Loader::Yaml < FeatureConfig::Setup::Loader
   private
 
   def fetch_config

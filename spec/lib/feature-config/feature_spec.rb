@@ -5,7 +5,7 @@ RSpec.describe Feature do
 
   context 'class API' do
     subject                     { Feature }
-    let(:features_names)        { Setup.configs.keys }
+    let(:features_names)        { FeatureConfig::Setup.configs.keys }
     let(:non_existing_feature)  { 'non_existing_feature' }
 
     context '.find' do
