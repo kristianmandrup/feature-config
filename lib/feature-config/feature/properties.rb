@@ -7,7 +7,9 @@ class Feature::Properties
   private
 
   def bind_properties!
-    @properties.each { |property, value| build_property_method(property, value) }
+    @properties.each do |property, value|
+      build_property_method(property, value)
+    end
   end
 
   def build_property_method(property, value)

@@ -5,7 +5,8 @@ module FeatureConfig
       Setup.initialize_properties
     end
 
-    initializer 'feature-config.feature_consistency_configs_helper', after: :initialize_logger do
+    initializer 'feature-config.feature_consistency_configs_helper',
+                after: :initialize_logger do
       Setup.check_consistency_of_configs
     end
   end

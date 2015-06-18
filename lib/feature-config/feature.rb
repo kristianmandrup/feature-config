@@ -19,7 +19,9 @@ class Feature
   end
 
   def build_properties(options)
-    @filters = Feature::Filter.build_filters(options.delete('available')) if options.key?('available')
+    if options.key?('available')
+      @filters = Feature::Filter.build_filters(options.delete('available'))
+    end
     @properties = Feature::Properties.new(options) if options
   end
 

@@ -23,7 +23,10 @@ RSpec.describe Feature do
     end
 
     context '.store' do
-      it { expect { subject.store('new_awesome_feature', true) }.to change { Feature.names.size }.by(1) }
+      it do
+        expect { subject.store('new_awesome_feature', true) }
+          .to change { Feature.names.size }.by(1)
+      end
     end
   end
 
@@ -36,23 +39,41 @@ RSpec.describe Feature do
       end
 
       context '#available' do
-        before { allow(subject).to receive(:filters).and_return([ double('Feature::Filter', ids: [1,2,3,4,5]), double('Feature::Filter', ids: [4,5,6]) ]) }
+        before do
+          allow(subject).to receive(:filters)
+            .and_return([double('Feature::Filter', ids: [1, 2, 3, 4, 5]),
+                         double('Feature::Filter', ids: [4, 5, 6])])
+        end
         it { expect(subject.available).to be_kind_of(Array) }
-        it { expect(subject.available).to match_array([4,5]) }
+        it { expect(subject.available).to match_array([4, 5]) }
       end
 
       context '#build_properties' do
-        subject { Feature.store('new_awesome_feature', true)}
+        subject { Feature.store('new_awesome_feature', true) }
         context 'without filters' do
-          before { subject.build_properties('test' => true, 'awesomeness' => 'high') }
+          before do
+            subject.build_properties('test' => true, 'awesomeness' => 'high')
+          end
           it { expect(subject.properties).to be_kind_of(Feature::Properties) }
           it { expect(subject.filters).to eq([]) }
         end
 
         context 'with filters' do
-          after { subject.build_properties('test' => true, 'awesomeness' => 'high', 'available' => { 'deposit_range' => { 'min' => 100_000, 'max' => 200_000 } }) }
-          it { expect(Feature::Filter).to receive(:build_filters).with('deposit_range' => { 'min' => 100_000, 'max' => 200_000 }) }
-          it { expect(Feature::Properties).to receive(:new).with('test' => true, 'awesomeness' => 'high') }
+          after do
+            subject.build_properties(
+              'test'        => true,
+              'awesomeness' => 'high',
+              'available'   => { 'deposit_range' => { 'min' => 100_000,
+                                                      'max' => 200_000 } })
+          end
+          it do
+            expect(Feature::Filter).to receive(:build_filters)
+              .with('deposit_range' => { 'min' => 100_000, 'max' => 200_000 })
+          end
+          it do
+            expect(Feature::Properties).to receive(:new)
+              .with('test' => true, 'awesomeness' => 'high')
+          end
         end
       end
     end

@@ -18,7 +18,7 @@ class Feature::Filter
   private
 
   def self.class_for(filter_name)
-    "#{ self.name }/#{ filter_name }".classify.constantize
+    "#{name}/#{filter_name}".classify.constantize
   end
 
   def source
