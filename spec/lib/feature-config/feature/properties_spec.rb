@@ -15,7 +15,7 @@ RSpec.describe Feature::Properties do
     end
     it do
       expect(subject.instance_variable_get(:@properties)
-        .keys.all? { |meth| subject.respond_to?(meth) }).to be_truthy
+        .keys.all? { |method| subject.respond_to?(method) }).to be_truthy
     end
   end
 end

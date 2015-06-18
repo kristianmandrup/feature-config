@@ -40,9 +40,11 @@ RSpec.describe Feature do
 
       context '#available' do
         before do
-          allow(subject).to receive(:filters)
-            .and_return([double('Feature::Filter', ids: [1, 2, 3, 4, 5]),
-                         double('Feature::Filter', ids: [4, 5, 6])])
+          filters = [
+            double('Feature::Filter', ids: [1, 2, 3, 4, 5]),
+            double('Feature::Filter', ids: [4, 5, 6])
+          ]
+          allow(subject).to receive(:filters).and_return(filters)
         end
         it { expect(subject.available).to be_kind_of(Array) }
         it { expect(subject.available).to match_array([4, 5]) }
@@ -59,16 +61,16 @@ RSpec.describe Feature do
         end
 
         context 'with filters' do
+          let(:deposit_ranges) { { 'min' => 100_000, 'max' => 200_000 } }
           after do
             subject.build_properties(
               'test'        => true,
               'awesomeness' => 'high',
-              'available'   => { 'deposit_range' => { 'min' => 100_000,
-                                                      'max' => 200_000 } })
+              'available'   => { 'deposit_range' => deposit_ranges })
           end
           it do
             expect(Feature::Filter).to receive(:build_filters)
-              .with('deposit_range' => { 'min' => 100_000, 'max' => 200_000 })
+              .with('deposit_range' => deposit_ranges)
           end
           it do
             expect(Feature::Properties).to receive(:new)

@@ -3,9 +3,8 @@ require 'spec_helper'
 RSpec.describe Feature::Filter::DepositRange do
   context do
     subject do
-      Feature::Filter::DepositRange.new(query: 'deposit_range',
-                                        min:   500_000,
-                                        max:   600_000)
+      options = { query: 'deposit_range', min: 500_000, max: 600_000 }
+      Feature::Filter::DepositRange.new(options)
     end
     context '#entries' do
       let(:source) { spy('source') }
@@ -20,8 +19,8 @@ RSpec.describe Feature::Filter::DepositRange do
     context '#ids' do
       let(:entries) { double('entries') }
       it do
-        allow(subject).to receive(:entries).and_return(entries)
-        allow(entries).to receive(:pluck).and_return([1, 2, 3])
+        expect(subject).to receive(:entries).and_return(entries)
+        expect(entries).to receive(:pluck).and_return([1, 2, 3])
         expect(subject.ids).to eq([1, 2, 3])
       end
     end

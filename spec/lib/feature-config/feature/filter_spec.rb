@@ -3,10 +3,8 @@ require 'spec_helper'
 RSpec.describe Feature::Filter do
   context 'class API' do
     subject                  { Feature::Filter }
-    let(:filters_attributes) do
-      { 'deposit_range' => { 'min' => 500_000,
-                             'max' => 550_000 } }
-    end
+    let(:deposit_ranges)     { { 'min' => 1, 'max' => 1 } }
+    let(:filters_attributes) { { 'deposit_range' => deposit_ranges } }
 
     context '.build_filters' do
       it do
