@@ -5,12 +5,14 @@ RSpec.describe Feature::Properties do
   let(:enabled_feature) { 'first_feature' }
 
   context '.initialize' do
-    after { subject.new(Setup.properties[enabled_feature]) }
+    after { subject.new(FeatureConfig::Setup.properties[enabled_feature]) }
     it { expect_any_instance_of(subject).to receive(:bind_properties!) }
   end
 
   context 'create a methods for each properties keys' do
-    subject { Feature::Properties.new(Setup.properties[enabled_feature]) }
+    subject do
+      Feature::Properties.new(FeatureConfig::Setup.properties[enabled_feature])
+    end
     it do
       expect(subject.instance_variable_get(:@properties)
         .keys.all? { |meth| subject.respond_to?(meth) }).to be_truthy

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Setup do
-  subject { Setup }
+RSpec.describe FeatureConfig::Setup do
+  subject { FeatureConfig::Setup }
 
   context '#configs' do
     it { expect(subject.configs).to be_kind_of(Hash) }
