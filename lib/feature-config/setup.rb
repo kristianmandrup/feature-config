@@ -28,12 +28,18 @@ module FeatureConfig
       private
 
       def log_warning(feature_name)
-        logger.warn "[FeatureConfig] #{feature_name}: " \
-                    "couldn't find associated feature flag"
+        logger.tagged(tag_name) do
+          logger.warn "#{feature_name}: " \
+                      "couldn't find associated feature flag"
+        end
       end
 
       def logger
         Rails.logger
+      end
+
+      def tag_name
+        'FeatureConfig'
       end
     end
   end
