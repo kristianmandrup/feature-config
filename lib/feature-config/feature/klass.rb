@@ -1,25 +1,31 @@
 class Feature
   module Klass
-    def find(name)
-      features[name]
+    def self.included(base)
+      base.extend ClassMethods
     end
 
-    def store(name, enabled)
-      features[name] = Feature.new(name, enabled)
-    end
+    module ClassMethods
+      def find(name)
+        features[name]
+      end
 
-    def defined?(name)
-      features.key?(name)
-    end
+      def store(name, enabled)
+        features[name] = Feature.new(name, enabled)
+      end
 
-    def names
-      features.keys
-    end
+      def defined?(name)
+        features.key?(name)
+      end
 
-    private
+      def names
+        features.keys
+      end
 
-    def features
-      @features ||= {}
+      private
+
+      def features
+        @features ||= {}
+      end
     end
   end
 end
