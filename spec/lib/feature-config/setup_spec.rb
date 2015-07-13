@@ -21,14 +21,18 @@ RSpec.describe FeatureConfig::Setup do
 
   context 'raises warning on mismatched configuration' do
     let(:feature_name) { 'misnamed_feature' }
-    let(:log) { spy('logger') }
-    it do
+    let(:log) { Rails.logger }
+
+    before do
       allow(log).to receive(:warn)
       allow(subject).to receive(:logger).and_return(log)
-      subject.check_consistency_of_configs
-      expect(log).to have_received(:warn)
-        .with("[FeatureConfig] #{feature_name}: " \
+    end
+
+    it do
+      expect(log).to receive(:warn)
+        .with("#{feature_name}: " \
           "couldn't find associated feature flag")
+      subject.check_consistency_of_configs
     end
   end
 end

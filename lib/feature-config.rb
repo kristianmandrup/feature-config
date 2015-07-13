@@ -1,4 +1,3 @@
-require 'feature-config/feature/klass'
 require 'feature-config/feature'
 require 'feature-config/feature/properties'
 require 'feature-config/feature/filter'

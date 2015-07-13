@@ -1,5 +1,7 @@
+require 'feature-config/feature/klass'
+
 class Feature
-  extend Klass
+  include Klass
   attr_reader :name, :enabled, :filters
 
   alias_method :enabled?, :enabled
