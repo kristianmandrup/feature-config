@@ -3,6 +3,11 @@ class Feature::Filter
     attributes.map { |name, options| class_for(name).new(options) }
   end
 
+  def self.class_for(filter_name)
+    "#{name}/#{filter_name}".classify.constantize
+  end
+  private_class_method :class_for
+
   def initialize(attributes)
     @attributes = attributes
   end
@@ -16,10 +21,6 @@ class Feature::Filter
   end
 
   private
-
-  def self.class_for(filter_name)
-    "#{name}/#{filter_name}".classify.constantize
-  end
 
   def source
     raise NotImplementedError
