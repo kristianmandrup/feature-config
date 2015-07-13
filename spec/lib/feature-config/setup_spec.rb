@@ -1,21 +1,23 @@
 require 'spec_helper'
 
 RSpec.describe FeatureConfig::Setup do
-  subject { FeatureConfig::Setup }
+  subject { FeatureConfig::Setup.instance }
+  let(:properties) { subject.send(:properties) }
+  let(:features) { subject.send(:features) }
 
-  context '#configs' do
-    it { expect(subject.configs).to be_kind_of(Hash) }
+  context '#features' do
+    it { expect(features).to be_kind_of(Hash) }
 
     it 'stores configs in memory and doesn\'t reload them' do
-      expect(subject.configs.object_id).to eq(subject.configs.object_id)
+      expect(features.object_id).to eq(subject.send(:features).object_id)
     end
   end
 
   context '#properties' do
-    it { expect(subject.properties).to be_kind_of(Hash) }
+    it { expect(properties).to be_kind_of(Hash) }
 
     it 'stores feature properties' do
-      expect(subject.properties.key?('first_feature')).to be_truthy
+      expect(properties.key?('first_feature')).to be_truthy
     end
   end
 
@@ -32,7 +34,7 @@ RSpec.describe FeatureConfig::Setup do
       expect(log).to receive(:warn)
         .with("#{feature_name}: " \
           "couldn't find associated feature flag")
-      subject.check_consistency_of_configs
+      subject.initialize!
     end
   end
 end
