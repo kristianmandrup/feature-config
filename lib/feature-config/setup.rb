@@ -3,8 +3,11 @@ module FeatureConfig
     require 'singleton'
     include Singleton
 
+    def self.configure
+      yield(instance)
+    end
+
     def self.initialize!
-      yield(instance) if block_given?
       instance.initialize!
     end
 
