@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*'] + ['Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rails', '~> 3.2.18'
+  s.add_dependency 'rails', '~> 4.1.12'
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'guard-rspec'
