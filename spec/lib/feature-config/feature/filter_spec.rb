@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe Feature::Filter do
+RSpec.describe FeatureConfig::Feature::Filter do
   context 'class API' do
-    subject                  { Feature::Filter }
+    subject                  { described_class }
     let(:deposit_ranges)     { { 'min' => 1, 'max' => 1 } }
     let(:filters_attributes) { { 'deposit_range' => deposit_ranges } }
 
@@ -12,7 +12,7 @@ RSpec.describe Feature::Filter do
       end
       it do
         expect(subject.build_filters(subject, filters_attributes))
-          .to all(be_an(Feature::Filter))
+          .to all(be_an(subject))
       end
     end
   end

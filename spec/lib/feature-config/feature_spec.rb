@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-RSpec.describe Feature do
+RSpec.describe FeatureConfig::Feature do
   let(:enabled_feature) { 'first_feature' }
 
   context 'class API' do
-    subject                     { Feature }
+    subject                     { described_class }
     let(:features_names)        { FeatureConfig::Setup.instance.send(:features).keys }
     let(:non_existing_feature)  { 'non_existing_feature' }
 
     context '.find_by_name' do
-      it { expect(subject.find_by_name(enabled_feature)).to be_kind_of(Feature) }
+      it { expect(subject.find_by_name(enabled_feature)).to be_kind_of(described_class) }
       it { expect(subject.find_by_name(non_existing_feature)).to be_nil }
     end
 
@@ -25,14 +25,14 @@ RSpec.describe Feature do
     context '.store' do
       it do
         expect { subject.store(name: 'new_awesome_feature', enabled: true) }
-          .to change { Feature.names.size }.by(1)
+          .to change { FeatureConfig::Feature.names.size }.by(1)
       end
     end
   end
 
   context 'instance API' do
     context 'for enabled feature' do
-      subject { Feature.find_by_name(enabled_feature) }
+      subject { FeatureConfig::Feature.find_by_name(enabled_feature) }
 
       context '#enabled?' do
         it { expect(subject.enabled?).to be_truthy }
@@ -51,12 +51,12 @@ RSpec.describe Feature do
       end
 
       context '#load_properties' do
-        subject { Feature.store(name: 'new_awesome_feature', enabled: true) }
+        subject { FeatureConfig::Feature.store(name: 'new_awesome_feature', enabled: true) }
         context 'without filters' do
           before do
             subject.load_properties('test' => true, 'awesomeness' => 'high')
           end
-          it { expect(subject.properties).to be_kind_of(Feature::Properties) }
+          it { expect(subject.properties).to be_kind_of(FeatureConfig::Feature::Properties) }
           it { expect(subject.filters).to eq([]) }
         end
 
@@ -69,11 +69,11 @@ RSpec.describe Feature do
               'available'   => { 'deposit_range' => deposit_ranges })
           end
           it do
-            expect(Feature::Filter).to receive(:build_filters)
+            expect(FeatureConfig::Feature::Filter).to receive(:build_filters)
               .with(subject, 'deposit_range' => deposit_ranges)
           end
           it do
-            expect(Feature::Properties).to receive(:new)
+            expect(FeatureConfig::Feature::Properties).to receive(:new)
               .with('test' => true, 'awesomeness' => 'high')
           end
         end
@@ -82,7 +82,7 @@ RSpec.describe Feature do
 
     context 'for disabled feature' do
       let(:disabled_feature) { 'disabled_feature' }
-      subject { Feature.find_by_name(disabled_feature) }
+      subject { FeatureConfig::Feature.find_by_name(disabled_feature) }
 
       context '#enabled?' do
         it { expect(subject.enabled?).to be_falsey }

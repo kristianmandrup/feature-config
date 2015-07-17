@@ -11,7 +11,7 @@ module FeatureConfig
           field :type, type: String
 
           # Associations
-          belongs_to :feature
+          belongs_to :feature, class_name: 'FeatureConfig::Feature'
 
           # Instance Methods
           # TODO: Implement
