@@ -1,5 +1,5 @@
 # Use this configuration to configure feature-config settings.
-FeatureConfig.setup do |config|
+FeatureConfig.configure do |config|
   # ==> Tag Name
   # This setting will be used for displaying the tag in the logs generated.
   # Defaults to `FeatureConfig`.
@@ -12,6 +12,14 @@ FeatureConfig.setup do |config|
   # Default is `FeatureConfig::Setup::Loader::Yaml`.
   #
   # config.loader_class = FeatureConfig::Setup::Loader::Yaml
+
+  # ==> Storage Name
+  # This option is to set the storage of yaml files. The value should be a symbol.
+  # Options supported: +RethinkDB+, +Memory+
+  #
+  # Default is `RethinkDB`.
+  #
+  # config.storage_name = :RethinkDB
 
   # ==> Logger
   # This is used to set logger for logging purpose.
