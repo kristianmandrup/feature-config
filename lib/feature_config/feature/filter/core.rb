@@ -10,7 +10,7 @@ module FeatureConfig
           raise NotImplementedError
         end
 
-        def attributes
+        def data
           raise NotImplementedError
         end
 

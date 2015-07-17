@@ -4,7 +4,7 @@ module FeatureConfig
       module Memory
         class DepositRange < QueryFilter
           def entries
-            source.with_deposits(attributes['min']..attributes['max'])
+            source.with_deposits(data['min']..data['max'])
           end
         end
       end
