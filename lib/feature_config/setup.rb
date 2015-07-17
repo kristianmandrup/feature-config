@@ -2,24 +2,28 @@ module FeatureConfig
   class Setup
     require 'singleton'
     include Singleton
+    extend ActiveSupport::Autoload
 
-    def self.configure
-      yield(instance)
-    end
+    autoload :Loader
 
-    def self.initialize!
-      instance.initialize!
+    class << self
+      delegate :initialize!, :storage, :storage_name, to: :instance
+
+      def configure
+        yield(instance)
+      end
     end
 
     attr_writer :tag_name, :logger, :loader_class, :features_directory
-    attr_writer :properties_directory
+    attr_writer :properties_directory, :storage_name
     def initialize!
+      require 'feature'
       initialize_features
       initialize_properties
     end
 
     def loader_class
-      @loader_class ||= Loader::Yaml
+      @loader_class ||= ::FeatureConfig::Setup::Loader::Yaml
     end
 
     def logger
@@ -38,6 +42,14 @@ module FeatureConfig
       @properties_directory ||= 'config/features/configurations'
     end
 
+    def storage
+      @storage ||= "::FeatureConfig::Storage::#{storage_name}".constantize
+    end
+
+    def storage_name
+      @storage_name ||= :RethinkDB
+    end
+
     private
       def features
         @features ||= load(features_directory)
@@ -48,17 +60,17 @@ module FeatureConfig
       end
 
       def load(path)
-        loader_class.new(path).hash
+        loader_class.new(path: path).hash
       end
 
       def initialize_features
-        features.each { |name, enabled| Feature.store(name, enabled) }
+        features.each { |name, enabled| ::Feature.store(name: name, enabled: enabled) }
       end
 
       def initialize_properties
         properties.each do |name, options|
-          if feature = Feature.find(name)
-            feature.build_properties(options)
+          if feature = ::Feature.find_by_name(name)
+            feature.load_properties(options)
           else
             log_warning(name)
           end

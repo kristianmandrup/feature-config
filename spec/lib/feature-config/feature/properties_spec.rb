@@ -10,12 +10,12 @@ RSpec.describe Feature::Properties do
     it { expect_any_instance_of(subject).to receive(:bind_properties!) }
   end
 
-  context 'create a methods for each properties keys' do
+  context 'create a methods for each data keys' do
     subject do
       Feature::Properties.new(properties[enabled_feature])
     end
     it do
-      expect(subject.instance_variable_get(:@properties)
+      expect(subject.instance_variable_get(:@data)
         .keys.all? { |method| subject.respond_to?(method) }).to be_truthy
     end
   end

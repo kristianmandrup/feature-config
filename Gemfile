@@ -14,4 +14,5 @@ group :test, :development do
   gem 'sqlite3',      '~> 1.3.10'
   gem 'byebug',       '~> 5.0.0'
   gem 'jquery-rails', '~> 3.1.2'
+  gem 'nobrainer',    '~> 0.27.0'
 end

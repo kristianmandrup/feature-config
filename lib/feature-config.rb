@@ -1,18 +1,16 @@
-require 'feature-config/feature'
-require 'feature-config/feature/properties'
-require 'feature-config/feature/filter'
-require 'feature-config/feature/filter/query_filter'
-require 'feature-config/feature/filter/deposit_range'
-require 'feature-config/setup'
-require 'feature-config/setup/loader'
-require 'feature-config/setup/loader/yaml'
-require 'feature-config/feature/rails/engine'
+require 'feature_config/feature/rails/engine'
 
 module FeatureConfig
+  extend ActiveSupport::Autoload
+
+  autoload :Setup
+  autoload :Storage
+  autoload :Feature
+  autoload :Filter
+  autoload :Properties
+
   class << self
-    def setup(&block)
-      Setup.configure(&block)
-    end
+    delegate :configure, to: :'FeatureConfig::Setup'
 
     def initialize!
       load_environment_file

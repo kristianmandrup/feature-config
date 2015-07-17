@@ -8,10 +8,10 @@ RSpec.describe Feature::Filter do
 
     context '.build_filters' do
       it do
-        expect(subject.build_filters(filters_attributes)).to be_kind_of(Array)
+        expect(subject.build_filters(subject, filters_attributes)).to be_kind_of(Array)
       end
       it do
-        expect(subject.build_filters(filters_attributes))
+        expect(subject.build_filters(subject, filters_attributes))
           .to all(be_an(Feature::Filter))
       end
     end
