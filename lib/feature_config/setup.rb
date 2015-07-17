@@ -17,7 +17,6 @@ module FeatureConfig
     attr_writer :tag_name, :logger, :loader_class, :features_directory
     attr_writer :properties_directory, :storage_name
     def initialize!
-      require 'feature'
       initialize_features
       initialize_properties
     end
@@ -64,12 +63,12 @@ module FeatureConfig
       end
 
       def initialize_features
-        features.each { |name, enabled| ::Feature.store(name: name, enabled: enabled) }
+        features.each { |name, enabled| FeatureConfig::Feature.store(name: name, enabled: enabled) }
       end
 
       def initialize_properties
         properties.each do |name, options|
-          if feature = ::Feature.find_by_name(name)
+          if feature = FeatureConfig::Feature.find_by_name(name)
             feature.load_properties(options)
           else
             log_warning(name)

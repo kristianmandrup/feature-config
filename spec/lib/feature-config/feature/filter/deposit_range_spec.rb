@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe Feature::Filter::DepositRange do
+RSpec.describe FeatureConfig::Feature::Filter::Memory::DepositRange do
   context do
     subject do
       options = { query: 'deposit_range', min: 500_000, max: 600_000 }
-      Feature::Filter::DepositRange.new(nil, options)
+      described_class.new(nil, options)
     end
     context '#entries' do
       let(:source) { spy('source') }

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Feature::Properties do
-  subject { Feature::Properties }
+RSpec.describe FeatureConfig::Feature::Properties do
+  subject { described_class }
   let(:enabled_feature) { 'first_feature' }
   let(:properties) { FeatureConfig::Setup.instance.send(:properties) }
 
@@ -12,7 +12,7 @@ RSpec.describe Feature::Properties do
 
   context 'create a methods for each data keys' do
     subject do
-      Feature::Properties.new(properties[enabled_feature])
+      described_class.new(properties[enabled_feature])
     end
     it do
       expect(subject.instance_variable_get(:@data)
