@@ -4,7 +4,7 @@ RSpec.describe Feature::Filter::DepositRange do
   context do
     subject do
       options = { query: 'deposit_range', min: 500_000, max: 600_000 }
-      Feature::Filter::DepositRange.new(options)
+      Feature::Filter::DepositRange.new(nil, options)
     end
     context '#entries' do
       let(:source) { spy('source') }
