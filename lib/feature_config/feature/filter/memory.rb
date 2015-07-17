@@ -9,13 +9,13 @@ module FeatureConfig
         autoload :QueryFilter
         autoload :DepositRange
 
-        def initialize(feature, attributes)
-          @attributes = attributes
+        def initialize(feature, data)
+          @data = data
           @feature = feature
         end
 
-        def attributes
-          @attributes
+        def data
+          @data
         end
 
         module ClassMethods

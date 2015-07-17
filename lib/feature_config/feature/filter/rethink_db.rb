@@ -7,7 +7,7 @@ module FeatureConfig
         included do
           include NoBrainer::Document
           # Fields
-          field :attributes, type: Hash
+          field :data, type: Hash
           field :type, type: String
 
           # Associations
@@ -27,8 +27,8 @@ module FeatureConfig
         module ClassMethods
           def build_filters(feature, attributes)
             attributes['available'].each do |filter_name, options|
-              where(type: filter_name, attributes: options).first ||
-              create(attributes: options, type: filter_name, feature: feature)
+              where(type: filter_name, data: options).first ||
+              create(data: options, type: filter_name, feature: feature)
             end
           end
         end
