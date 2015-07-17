@@ -1,4 +1,6 @@
-# desc "Explaining what the task does"
-# task :feature-config do
-#   # Task goes here
-# end
+desc "It loads yaml file to storage"
+namespace :feature_config do
+  task :load_data => :environment do
+    FeatureConfig.initialize!
+  end
+end
