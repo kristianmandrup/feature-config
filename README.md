@@ -5,7 +5,7 @@ Enables fine-grained control of features:
 - which features are enabled
 - for which users a given feature is enabled
 
-All enabled features are instantiated at application startup and kept in memory 
+All enabled features are instantiated at application startup and kept in memory
 while the application is running.
 
 Each feature consists of:
@@ -23,7 +23,7 @@ in `Gemfile`
 ## Quickstart
 
 ```ruby
-wallet = Feature.find('wallet')
+wallet = FeatureConfig::Feature.find_by_name('wallet')
 
 wallet.enabled?
 => true
@@ -33,7 +33,7 @@ wallet.available.include?(current_user.id)
 ```
 
 ```ruby
-Feature.find('service').properties do |service|
+FeatureConfig::Feature.find_by_name('service').properties do |service|
   RestApi::Base.establish_connection(url: service.rest_api_url)
   RestApi::Base.user_agent = service.user_agent
   RestApi::Base.transport = service.transport
@@ -52,22 +52,22 @@ The Feature API is grouped into
 *Check if feature is defined*
 
 ```
-Feature.defined?('awesome_feature')
+FeatureConfig::Feature.defined?('awesome_feature')
 => false
 ```
 
 *List all features*
 
 ```
-Feature.names
+FeatureConfig::Feature.names
 => [ 'awesome_feature', 'not_so_hot_feature', 'useless_feature' ]
 ```
 
 *Find a feature instance by name*
 
 ```
-awesome_feature = Feature.find('awesome_feature')
-=> #<Feature:0x0..>
+awesome_feature = FeatureConfig::Feature.find_by_name('awesome_feature')
+=> #<FeatureConfig::Feature:0x0..>
 ```
 
 #### Feature instance API
@@ -90,7 +90,7 @@ awesome_feature.disabled?
 
 ```
 awesome_feature.properties
- => #<Feature::Properties:0x0... @properties={}>
+ => #<FeatureConfig::Feature::Properties:0x0... @data={}>
 ```
 
 First-level properties accessible as instance methods:
