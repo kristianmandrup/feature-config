@@ -14,8 +14,8 @@ module FeatureConfig
           @feature = feature
         end
 
-        def data
-          @data
+        included do
+          attr_reader :data, :feature
         end
 
         module ClassMethods

@@ -10,7 +10,7 @@ module FeatureConfig
   autoload :Properties
 
   class << self
-    delegate :configure, to: :'FeatureConfig::Setup'
+    delegate :configure, :memory_storage?, to: :'FeatureConfig::Setup'
 
     def initialize!
       load_environment_file
@@ -21,10 +21,9 @@ module FeatureConfig
       "config/features_config/#{ rails_env }.rb"
     end
 
-    private
-      def load_environment_file
-        path = Rails.root.join(target_file_name)
-        File.exists?(path) and require(path)
-      end
+    def load_environment_file
+      path = Rails.root.join(target_file_name)
+      File.exists?(path) and require(path)
+    end
   end
 end

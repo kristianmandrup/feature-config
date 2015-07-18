@@ -14,6 +14,14 @@ module FeatureConfig
           raise NotImplementedError
         end
 
+        def update(data)
+          raise NotImplementedError
+        end
+
+        def type
+          raise NotImplementedError
+        end
+
         private
           def source
             raise NotImplementedError

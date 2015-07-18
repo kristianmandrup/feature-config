@@ -7,7 +7,7 @@ module FeatureConfig
     autoload :Loader
 
     class << self
-      delegate :initialize!, :storage, :storage_name, to: :instance
+      delegate :initialize!, :storage, :storage_name, :memory_storage?, to: :instance
 
       def configure
         yield(instance)
@@ -47,6 +47,10 @@ module FeatureConfig
 
     def storage_name
       @storage_name ||= :RethinkDB
+    end
+
+    def memory_storage?
+      storage_name == :Memory
     end
 
     private
