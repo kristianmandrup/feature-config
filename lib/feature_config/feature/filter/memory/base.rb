@@ -11,6 +11,15 @@ module FeatureConfig
             entries.pluck(:id)
           end
 
+          def type
+            self.class.name.demodulize.underscore
+          end
+
+          def update(data = {})
+            @data = data
+            self
+          end
+
           private
             def source
               Betrails::User
